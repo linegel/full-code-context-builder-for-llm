@@ -43,13 +43,14 @@ However, many developers are more than willing to pay for larger token usage if 
 
 ## Current Implementation
 
-Currently, LLM-Context-Builder is focused on building its core functionality:
+LLM-Context-Builder now has a basic CLI implementation that allows you to:
 
-1. **Directory Scanning**: Ability to scan through a specified directory structure
-2. **File Collection**: Gathering related files into a single context block
-3. **Node.js Foundation**: Building the tool on Node.js for wide compatibility
+1. Scan a directory for JavaScript and TypeScript files
+2. Collect these files into a single context document
+3. Optionally follow imports to include dependencies 
+4. Output everything to a markdown file that's well-formatted for LLMs
 
-### Getting Started (for developers/contributors)
+### Installation
 
 ```bash
 # Clone this repository
@@ -59,9 +60,57 @@ cd LLM-Context-Builder
 # Install dependencies
 npm install
 
-# Run the development version
-npm run dev
+# Build the project
+npm run build
+
+# Link it globally (optional)
+npm link
 ```
+
+### Usage
+
+```bash
+# Basic usage (scan current directory)
+context-builder . -o context.md
+
+# Specify include/exclude patterns
+context-builder . -i "**/*.js" "**/*.ts" -e "**/node_modules/**" -o context.md
+
+# Don't follow imports
+context-builder . --no-imports
+
+# Generate code without comments (cleaner context for LLMs)
+context-builder . --no-comments
+
+# Set maximum import depth
+context-builder . --max-depth 2
+
+# Get help
+context-builder --help
+```
+
+### Options
+
+- `<directory>`: Directory to process (required)
+- `-o, --output <file>`: Output file path (default: "context.md")
+- `-i, --include <patterns...>`: Glob patterns for files to include
+- `-e, --exclude <patterns...>`: Glob patterns for files to exclude
+- `--no-imports`: Do not follow imports
+- `--no-comments`: Remove code comments -- might be useful in some cases, espicially in codebase with tons of great, but not so needed (for llm) comments
+- `--max-depth <depth>`: Maximum depth for import traversal (default: 3)
+- `--no-file-structure`: Do not include file structure information
+- `-V, --version`: Output the version number
+- `-h, --help`: Display help for command
+
+### Output Format
+
+The generated context file is formatted as markdown with:
+
+1. A file structure section listing all included files
+2. Each file's content in a code block with appropriate syntax highlighting
+3. Clear separation between files
+
+This format works well with LLMs as it provides both the code and the contextual information about file structure.
 
 ---
 
