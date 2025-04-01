@@ -1,5 +1,7 @@
 # LLM-Context-Builder
 
+> ⚠️ **YOU MAY NOT NEED THIS**: Before looking deeper into the code, consider usage of following one-liner (tho tune it for your needs): `find . -not -path "*/node_modules/*" -not -path "*/\.*" -type f | grep -v "dist/" | grep -v "\.log$" | while read -r file; do echo -e "\n### FILE: $file ###\n" >> context.txt && cat "$file" >> context.txt; done`
+> 
 > ⚠️ **WORK IN PROGRESS**: This project is currently in early development. Many features described are planned but not yet implemented.
 
 A tool for developers who want to provide maximum context to Large Language Models (LLMs) without worrying about conservative token usage. By using your own API keys, you control how many tokens you send (up to the model's supported maximum), enabling the LLM to receive fuller context, reduce guesswork, and provide more accurate and context-aware code suggestions or fixes.
